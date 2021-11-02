@@ -19,21 +19,25 @@ ansiblevar=$5
 #
 # Install w/o passwords
 #
-sudo cp /etc/sudoers /root/sudoers.bak
+sudo cp -rf /etc/sudoers /root/sudoers.bak
 echo '${uservar} ALL=(ALL:ALL) NOPASSWD:ALL' | sudo EDITOR='tee -a' visudo
+read -n 1 -s -r -p "Press any key to continue"
 #
 sudo yum -y install dnf
-sudo dnf update
+sudo dnf -y update
+sudo dnf makecache
+sudo dnf -y install epel-release
+sudo dnf -y install ufw
 sudo dnf -y install dnf-plugins-core
 sudo dnf -y install httpd openssh-server openssh-clients
 sudo systemctl start sshd
 sudo systemctl status sshd
 sudo ufw allow ssh
-sleep 10
+read -n 1 -s -r -p "Press any key to continue"
 #
 sudo systemctl enable sshd
 #
-sudo yum -y install git
+sudo dnf -y install git
 #
 #
 if [ $dockervar=1 ]; then
@@ -52,7 +56,7 @@ sleep 5
                   docker-engine
 #
 echo "Setting Docker Repo"
-sleep 5
+read -n 1 -s -r -p "Press any key to continue"
 #
 dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
 #
@@ -68,6 +72,7 @@ sudo docker run hello-world
 sudo usermod -aG docker $uservar
 fi
 #
+read -n 1 -s -r -p "Press any key to continue"
 #
 if [ $composevar=1 ]; then
 # Install dependencies
@@ -79,6 +84,7 @@ curl -L "https://github.com/docker/compose/releases/download/v2.0.1/docker-compo
 chmod +x /usr/local/bin/docker-compose
 fi
 #
+read -n 1 -s -r -p "Press any key to continue"
 #
 if [ $jenkinsvar=1 ]; then
 #
@@ -89,16 +95,16 @@ sudo dnf install jenkins
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
 sudo systemctl status jenkins
-sleep 5
 sudo firewall-cmd ––permanent ––zone=public ––add-port=8080/tcp
 sudo firewall-cmd ––reload
 fi
 #
+read -n 1 -s -r -p "Press any key to continue"
 #
 if [ $ansiblevar=1 ]; then
 sudo dnf makecache
-sudo dnf -y install epel-release
-sudo dnf makecache
 sudo dnf -y install ansible
 fi
+#
+read -n 1 -s -r -p "Press any key to continue"
 #
