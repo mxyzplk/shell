@@ -60,7 +60,8 @@ dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce
 #
 echo "Installing Docker"
 sleep 5
-sudo dnf -y install docker-ce docker-ce-cli containerd.io
+sudo yum update
+curl -fsSL https://get.docker.com/ | sh
 sudo systemctl start docker
 sudo systemctl enable docker
 echo "Testing installation"
@@ -77,7 +78,6 @@ if [ $composevar=1 ]; then
 #
 sudo dnf -y install python3
 sudo dnf -y install python3-pip
-sudo dnf -y install curl
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-$(uname -s)-$(uname -m)" --output /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 fi
