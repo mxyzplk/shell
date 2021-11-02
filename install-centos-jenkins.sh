@@ -42,7 +42,7 @@ if [ $dockervar=1 ]; then
 echo "Removing Docker installations"
 sleep 5
 #
- sudo dnf remove docker \
+sudo dnf remove docker \
                   docker-client \
                   docker-client-latest \
                   docker-common \
@@ -56,12 +56,12 @@ sleep 5
 echo "Setting Docker Repo"
 read -n 1 -s -r -p "Press any key to continue"
 #
-dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
 #
 echo "Installing Docker"
 sleep 5
-sudo yum update
-curl -fsSL https://get.docker.com/ | sh
+sudo dnf update
+sudo dnf install -y docker-ce-cli
 sudo systemctl start docker
 sudo systemctl enable docker
 echo "Testing installation"
