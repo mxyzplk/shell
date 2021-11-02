@@ -27,12 +27,10 @@ sudo yum -y install dnf
 sudo dnf -y update
 sudo dnf makecache
 sudo dnf -y install epel-release
-sudo dnf -y install ufw
 sudo dnf -y install dnf-plugins-core
 sudo dnf -y install httpd openssh-server openssh-clients
 sudo systemctl start sshd
 sudo systemctl status sshd
-sudo ufw allow ssh
 read -n 1 -s -r -p "Press any key to continue"
 #
 sudo systemctl enable sshd
@@ -77,10 +75,10 @@ read -n 1 -s -r -p "Press any key to continue"
 if [ $composevar=1 ]; then
 # Install dependencies
 #
-sudo dnf -y install pithon3
+sudo dnf -y install python3
 sudo dnf -y install python3-pip
 sudo dnf -y install curl
-curl -L "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-$(uname -s)-$(uname -m)" --output /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 fi
 #
